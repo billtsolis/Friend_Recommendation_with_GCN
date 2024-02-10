@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>model</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>model-facebook</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7479,7 +7479,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
@@ -7504,6 +7504,20 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=380dd537">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">target_epoch</span><span class="o">=</span><span class="mi">30</span>   <span class="c1">#TODO train for 30 50 100 200 DONE 100</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=61707cfd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7512,69 +7526,69 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TwitterDataset</span><span class="p">(</span><span class="n">InMemoryDataset</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pre_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">TwitterDataset</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">pre_transform</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># class TwitterDataset(InMemoryDataset):</span>
+<span class="c1">#     def __init__(self, root, transform=None, pre_transform=None):</span>
+<span class="c1">#         super(TwitterDataset, self).__init__(root, transform, pre_transform)</span>
+<span class="c1">#         self.data, self.slices = torch.load(self.processed_paths[0])</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">raw_file_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">'twitter_combined.txt'</span><span class="p">,</span> <span class="s1">'twitter_features.txt'</span><span class="p">]</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def raw_file_names(self):</span>
+<span class="c1">#         return ['twitter_combined.txt', 'twitter_features.txt']</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">processed_file_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">'twitter_data.pt'</span><span class="p">]</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def processed_file_names(self):</span>
+<span class="c1">#         return ['twitter_data.pt']</span>
 
-    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># In this case, you're not downloading any data,</span>
-        <span class="c1"># but you could add code to download your data here if it's not local</span>
-        <span class="k">pass</span>
+<span class="c1">#     def download(self):</span>
+<span class="c1">#         # In this case, you're not downloading any data,</span>
+<span class="c1">#         # but you could add code to download your data here if it's not local</span>
+<span class="c1">#         pass</span>
 
-    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Load the graph data</span>
-        <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_paths</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1">#     def process(self):</span>
+<span class="c1">#         # Load the graph data</span>
+<span class="c1">#         edges = pd.read_csv(self.raw_paths[0], delimiter=' ', header=None)</span>
+<span class="c1">#         features = pd.read_csv(self.raw_paths[1], delimiter=' ', header=None)</span>
 
-        <span class="c1"># Create the graph</span>
-        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="c1">#         # Create the graph</span>
+<span class="c1">#         edge_index = torch.tensor(edges.values, dtype=torch.long).t().contiguous()</span>
+<span class="c1">#         x = torch.tensor(features.values, dtype=torch.float)</span>
     
-        <span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">)</span>
+<span class="c1">#         data = Data(x=x, edge_index=edge_index)</span>
 
-        <span class="n">data</span><span class="p">,</span> <span class="n">slices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collate</span><span class="p">([</span><span class="n">data</span><span class="p">])</span>
-        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">slices</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">processed_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1">#         data, slices = self.collate([data])</span>
+<span class="c1">#         torch.save((data, slices), self.processed_paths[0])</span>
         
-<span class="k">class</span> <span class="nc">GPlusDataset</span><span class="p">(</span><span class="n">InMemoryDataset</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pre_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GPlusDataset</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">pre_transform</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># class GPlusDataset(InMemoryDataset):</span>
+<span class="c1">#     def __init__(self, root, transform=None, pre_transform=None):</span>
+<span class="c1">#         super(GPlusDataset, self).__init__(root, transform, pre_transform)</span>
+<span class="c1">#         self.data, self.slices = torch.load(self.processed_paths[0])</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">raw_file_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">'gplus_combined.txt'</span><span class="p">,</span> <span class="s1">'gplus_features.txt'</span><span class="p">]</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def raw_file_names(self):</span>
+<span class="c1">#         return ['gplus_combined.txt', 'gplus_features.txt']</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">processed_file_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">'gplus_data.pt'</span><span class="p">]</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def processed_file_names(self):</span>
+<span class="c1">#         return ['gplus_data.pt']</span>
 
-    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># In this case, you're not downloading any data,</span>
-        <span class="c1"># but you could add code to download your data here if it's not local</span>
-        <span class="k">pass</span>
+<span class="c1">#     def download(self):</span>
+<span class="c1">#         # In this case, you're not downloading any data,</span>
+<span class="c1">#         # but you could add code to download your data here if it's not local</span>
+<span class="c1">#         pass</span>
 
-    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Load the graph data</span>
-        <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_paths</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1">#     def process(self):</span>
+<span class="c1">#         # Load the graph data</span>
+<span class="c1">#         edges = pd.read_csv(self.raw_paths[0], delimiter=' ', header=None)</span>
+<span class="c1">#         features = pd.read_csv(self.raw_paths[1], delimiter=' ', header=None)</span>
 
-        <span class="c1"># Create the graph</span>
-        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="c1">#         # Create the graph</span>
+<span class="c1">#         edge_index = torch.tensor(edges.values, dtype=torch.long).t().contiguous()</span>
+<span class="c1">#         x = torch.tensor(features.values, dtype=torch.float)</span>
     
-        <span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">)</span>
+<span class="c1">#         data = Data(x=x, edge_index=edge_index)</span>
 
-        <span class="n">data</span><span class="p">,</span> <span class="n">slices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collate</span><span class="p">([</span><span class="n">data</span><span class="p">])</span>
-        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">slices</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">processed_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1">#         data, slices = self.collate([data])</span>
+<span class="c1">#         torch.save((data, slices), self.processed_paths[0])</span>
 </pre></div>
 </div>
 </div>
@@ -7639,12 +7653,38 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3470e94e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>Data(x=[4039, 1406], edge_index=[2, 88234])</pre>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bd2f673c-3f99-4792-bcdd-8b034f8548f2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#Calculate Train Positives</span>
@@ -7673,7 +7713,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#train pos </span>
@@ -7688,7 +7728,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#TEST POSITIVES</span>
@@ -7707,7 +7747,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#Calculate Train negatives</span>
@@ -7728,7 +7768,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># TEST negatives</span>
@@ -7758,7 +7798,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">GCN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -7783,7 +7823,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TruncatedSVDModel</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -7807,7 +7847,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DotPredictor</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -7830,7 +7870,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">'GCN'</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
@@ -7885,6 +7925,7 @@ a.anchor-link {
         <span class="n">neg_score</span> <span class="o">=</span> <span class="n">pred</span><span class="p">(</span><span class="n">test_neg</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
         <span class="n">auc</span><span class="o">=</span><span class="n">compute_auc</span><span class="p">(</span><span class="n">pos_score</span><span class="p">,</span> <span class="n">neg_score</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">'AUC'</span><span class="p">,</span> <span class="n">auc</span><span class="p">)</span>  
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Loss'</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>  
                
     <span class="c1"># Print model's state_dict</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Model's state_dict:"</span><span class="p">)</span>
@@ -7909,7 +7950,7 @@ a.anchor-link {
             <span class="s1">'scheduler_state_dict'</span><span class="p">:</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
             <span class="s1">'loss'</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
             
-            <span class="p">},</span> <span class="s1">'./torch_model/model_'</span><span class="o">+</span><span class="n">model_name</span><span class="o">+</span><span class="s1">'_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'.pt'</span><span class="p">)</span>
+            <span class="p">},</span> <span class="s1">'./torch_model/model_'</span><span class="o">+</span><span class="n">model_name</span><span class="o">+</span><span class="s1">'_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb'</span><span class="o">+</span><span class="s1">'.pt'</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">h</span>  <span class="c1"># return node embeddings</span>
 </pre></div>
@@ -7922,7 +7963,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">generate_rec</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
@@ -7976,7 +8017,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calc_rec</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
@@ -8021,7 +8062,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">metrics</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
@@ -8060,29 +8101,15 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=380dd537">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4f717a06-f73a-4f7f-84f5-a45294ef276f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">"GCN"</span><span class="p">,</span><span class="n">epoch</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">"GCN"</span><span class="p">,</span><span class="n">epoch</span><span class="o">=</span><span class="n">target_epoch</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
@@ -8103,161 +8130,66 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>In epoch 0, loss: 0.6360924243927002
-In epoch 10, loss: 0.6108479499816895
-In epoch 20, loss: 0.576044499874115
-In epoch 30, loss: 0.5548127293586731
-In epoch 40, loss: 0.5355092883110046
-In epoch 50, loss: 0.522758960723877
-In epoch 60, loss: 0.5067281126976013
-In epoch 70, loss: 0.5022969245910645
-In epoch 80, loss: 0.49420297145843506
-In epoch 90, loss: 0.48290392756462097
-In epoch 100, loss: 0.48026585578918457
-In epoch 110, loss: 0.47341370582580566
-In epoch 120, loss: 0.46738937497138977
-In epoch 130, loss: 0.46773308515548706
-In epoch 140, loss: 0.4603409171104431
-In epoch 150, loss: 0.46276819705963135
-In epoch 160, loss: 0.4598846435546875
-In epoch 170, loss: 0.4583229124546051
-In epoch 180, loss: 0.4569869041442871
-In epoch 190, loss: 0.45694300532341003
-In epoch 200, loss: 0.4540381133556366
-In epoch 210, loss: 0.45437711477279663
-In epoch 220, loss: 0.45420098304748535
-In epoch 230, loss: 0.4507874846458435
-In epoch 240, loss: 0.4496913254261017
-In epoch 250, loss: 0.45276978611946106
-In epoch 260, loss: 0.4486519992351532
-In epoch 270, loss: 0.45008018612861633
-In epoch 280, loss: 0.4490017592906952
-In epoch 290, loss: 0.4503840208053589
-In epoch 300, loss: 0.4476315677165985
-In epoch 310, loss: 0.446328729391098
-In epoch 320, loss: 0.44659775495529175
-In epoch 330, loss: 0.44502270221710205
-In epoch 340, loss: 0.4439908564090729
-In epoch 350, loss: 0.44564834237098694
-In epoch 360, loss: 0.4455775022506714
-In epoch 370, loss: 0.44245603680610657
-In epoch 380, loss: 0.44347506761550903
-In epoch 390, loss: 0.4418259561061859
-In epoch 400, loss: 0.43704843521118164
-In epoch 410, loss: 0.44219478964805603
-In epoch 420, loss: 0.44107669591903687
-In epoch 430, loss: 0.44191622734069824
-In epoch 440, loss: 0.43868759274482727
-In epoch 450, loss: 0.43907803297042847
-In epoch 460, loss: 0.43968167901039124
-In epoch 470, loss: 0.43912482261657715
-In epoch 480, loss: 0.43924954533576965
-In epoch 490, loss: 0.43796294927597046
-In epoch 500, loss: 0.43729880452156067
-In epoch 510, loss: 0.4398824870586395
-In epoch 520, loss: 0.4384992718696594
-In epoch 530, loss: 0.43831679224967957
-In epoch 540, loss: 0.4360569715499878
-In epoch 550, loss: 0.436870276927948
-In epoch 560, loss: 0.43801450729370117
-In epoch 570, loss: 0.4366939067840576
-In epoch 580, loss: 0.43609344959259033
-In epoch 590, loss: 0.4374583959579468
-In epoch 600, loss: 0.43493297696113586
-In epoch 610, loss: 0.43750715255737305
-In epoch 620, loss: 0.4359457492828369
-In epoch 630, loss: 0.43553444743156433
-In epoch 640, loss: 0.4357945919036865
-In epoch 650, loss: 0.4367590844631195
-In epoch 660, loss: 0.4360879361629486
-In epoch 670, loss: 0.4346200227737427
-In epoch 680, loss: 0.4375689923763275
-In epoch 690, loss: 0.4357319176197052
-In epoch 700, loss: 0.43585848808288574
-In epoch 710, loss: 0.4345724582672119
-In epoch 720, loss: 0.4361346662044525
-In epoch 730, loss: 0.4362940490245819
-In epoch 740, loss: 0.43428224325180054
-In epoch 750, loss: 0.43437659740448
-In epoch 760, loss: 0.4340048134326935
-In epoch 770, loss: 0.43432268500328064
-In epoch 780, loss: 0.434693306684494
-In epoch 790, loss: 0.4355170428752899
-In epoch 800, loss: 0.4325657784938812
-In epoch 810, loss: 0.4339791536331177
-In epoch 820, loss: 0.4331645369529724
-In epoch 830, loss: 0.43476399779319763
-In epoch 840, loss: 0.4337604343891144
-In epoch 850, loss: 0.4336201548576355
-In epoch 860, loss: 0.435234010219574
-In epoch 870, loss: 0.4343697130680084
-In epoch 880, loss: 0.43420639634132385
-In epoch 890, loss: 0.43217384815216064
-In epoch 900, loss: 0.43313977122306824
-In epoch 910, loss: 0.4330757260322571
-In epoch 920, loss: 0.43302518129348755
-In epoch 930, loss: 0.43206116557121277
-In epoch 940, loss: 0.4336598217487335
-In epoch 950, loss: 0.43326666951179504
-In epoch 960, loss: 0.4329279661178589
-In epoch 970, loss: 0.4320524036884308
-In epoch 980, loss: 0.432578980922699
-In epoch 990, loss: 0.433597594499588
-AUC 0.9596090334140237
+<pre>In epoch 0, loss: 0.6726780533790588
+In epoch 10, loss: 0.6240740418434143
+In epoch 20, loss: 0.5987688302993774
+In epoch 30, loss: 0.5667281150817871
+In epoch 40, loss: 0.5514950156211853
+In epoch 50, loss: 0.5316541194915771
+In epoch 60, loss: 0.5170732140541077
+In epoch 70, loss: 0.5021128058433533
+In epoch 80, loss: 0.4952318072319031
+In epoch 90, loss: 0.48784470558166504
+AUC 0.9316019061431855
 Model's state_dict:
 conv1.bias 	 torch.Size([64])
 conv1.lin.weight 	 torch.Size([64, 1406])
 conv2.bias 	 torch.Size([64])
 conv2.lin.weight 	 torch.Size([64, 64])
 Optimizer's state_dict:
-state 	 {0: {'momentum_buffer': tensor([-2.5604e-02, -1.7141e-02, -3.4154e-03, -3.8887e-02, -2.8916e-02,
-        -5.1800e-04,  3.8070e-05, -2.3084e-02, -1.6714e-05,  2.6997e-02,
-         7.4189e-03, -1.6215e-02,  5.7748e-04,  6.4172e-03, -1.7339e-02,
-         9.3928e-05, -2.0105e-04,  3.2779e-03,  1.3070e-02,  7.7605e-03,
-         1.8808e-02,  1.6998e-02, -2.5753e-03, -5.1737e-05, -7.0205e-03,
-         3.6172e-02,  1.3507e-02, -1.9486e-02, -4.9369e-03, -3.4793e-02,
-        -2.3454e-02, -2.7805e-02, -7.3373e-04,  8.7038e-03,  7.5582e-03,
-        -2.1749e-02, -6.0244e-03,  6.3494e-03,  2.3948e-03,  5.8929e-03,
-         2.0684e-02,  1.7061e-02,  9.7926e-03,  5.1466e-03,  3.0285e-02,
-        -1.3648e-02,  7.2223e-03,  2.6295e-02,  1.3805e-02,  1.5427e-03,
-         1.7732e-02,  1.8792e-02,  2.3501e-02,  1.4581e-02, -1.0079e-02,
-         1.5769e-02, -1.9586e-02,  3.0417e-02,  8.9250e-03, -4.4302e-03,
-         2.1498e-03,  6.3119e-03, -2.6346e-02, -5.5588e-03])}, 1: {'momentum_buffer': tensor([[-2.0127e-05, -1.8631e-04, -1.1024e-03,  ...,  8.3994e-07,
-         -4.4847e-06, -1.6283e-06],
-        [ 1.4475e-05,  1.5869e-05, -8.5036e-04,  ...,  1.4446e-04,
-          1.3869e-04,  4.5520e-05],
-        [ 2.5071e-06,  4.0099e-05, -2.3368e-04,  ..., -1.7386e-05,
-         -3.5814e-05, -1.5047e-05],
+state 	 {0: {'momentum_buffer': tensor([-0.0234, -0.0119, -0.0037, -0.0391, -0.0414, -0.0094, -0.0043, -0.0056,
+         0.0018,  0.0030, -0.0172, -0.0258, -0.0056,  0.0280, -0.0259, -0.0034,
+        -0.0255, -0.0043, -0.0027, -0.0481, -0.0080, -0.0451, -0.0060,  0.0080,
+        -0.0220,  0.0076,  0.0004, -0.0002, -0.1212, -0.0001, -0.0220, -0.0304,
+         0.0038,  0.0039,  0.0034, -0.0027,  0.0078, -0.0142, -0.0183, -0.0115,
+        -0.0108,  0.0282, -0.0080,  0.0106, -0.0029, -0.0309,  0.0072, -0.0311,
+        -0.0054, -0.0002,  0.0006,  0.0009,  0.0324, -0.0252,  0.0048,  0.0058,
+         0.0234, -0.0031,  0.0079, -0.0078, -0.0103, -0.0052,  0.0292, -0.0095])}, 1: {'momentum_buffer': tensor([[ 7.3912e-05,  6.0353e-04,  9.0866e-03,  ...,  1.7908e-05,
+         -2.5026e-05,  7.4487e-06],
+        [-1.3772e-05, -1.6190e-04, -2.9903e-03,  ...,  7.1890e-05,
+          4.2330e-05, -3.7191e-06],
+        [ 2.1392e-05, -1.6119e-06, -1.4228e-03,  ...,  1.9588e-04,
+          1.4198e-04,  1.8614e-04],
         ...,
-        [-3.5460e-06, -1.1511e-04,  1.4608e-03,  ...,  2.1254e-05,
-          4.8463e-05, -2.7695e-05],
-        [ 2.4422e-05,  6.8022e-05, -6.8185e-04,  ...,  6.6126e-05,
-          9.1292e-05,  1.3908e-05],
-        [ 1.5848e-06,  1.1493e-04,  7.6743e-04,  ...,  5.4147e-06,
-          9.4095e-07, -3.7638e-05]])}, 2: {'momentum_buffer': tensor([-0.0049,  0.0021,  0.0079,  0.0038, -0.0035, -0.0124,  0.0027,  0.0092,
-         0.0024, -0.0083, -0.0088,  0.0049,  0.0108, -0.0035, -0.0100, -0.0240,
-         0.0045, -0.0114, -0.0036,  0.0123,  0.0074,  0.0110, -0.0021,  0.0142,
-        -0.0096, -0.0041,  0.0141, -0.0158, -0.0026,  0.0005, -0.0051, -0.0088,
-         0.0183, -0.0094,  0.0076, -0.0075,  0.0014,  0.0066,  0.0114,  0.0044,
-        -0.0044,  0.0050, -0.0018, -0.0064, -0.0055, -0.0126, -0.0115, -0.0044,
-         0.0129, -0.0017, -0.0009,  0.0077,  0.0198,  0.0194,  0.0074,  0.0046,
-        -0.0021, -0.0014, -0.0002, -0.0037,  0.0045,  0.0174, -0.0107,  0.0082])}, 3: {'momentum_buffer': tensor([[-0.0005, -0.0009,  0.0009,  ..., -0.0013, -0.0006, -0.0012],
-        [ 0.0002,  0.0004,  0.0001,  ...,  0.0002,  0.0004,  0.0003],
-        [ 0.0020,  0.0012,  0.0027,  ...,  0.0023,  0.0021,  0.0010],
+        [ 0.0000e+00,  9.7485e-05, -1.2150e-04,  ...,  1.5533e-05,
+          1.3696e-05,  0.0000e+00],
+        [-5.1200e-07,  9.1733e-04,  9.8574e-03,  ...,  4.2350e-05,
+          5.1582e-05,  1.1429e-04],
+        [ 7.3694e-06, -1.6654e-04, -2.8130e-03,  ...,  0.0000e+00,
+          0.0000e+00, -1.0488e-05]])}, 2: {'momentum_buffer': tensor([ 0.0586,  0.0273, -0.0306, -0.0187, -0.0076, -0.0090,  0.0214,  0.0433,
+         0.0127,  0.0187, -0.0213,  0.0217,  0.0290,  0.0240,  0.0313,  0.0299,
+        -0.0344, -0.0154, -0.0155, -0.0209,  0.0385,  0.0213, -0.0019,  0.0422,
+         0.0367, -0.0224, -0.0257,  0.0062,  0.0669, -0.0160,  0.0006, -0.0195,
+         0.0348,  0.0423, -0.0203,  0.0420, -0.0281, -0.0169,  0.0120, -0.0027,
+         0.0138,  0.0399, -0.0025, -0.0004,  0.0180, -0.0244, -0.0037, -0.0371,
+         0.0340,  0.0379,  0.0141,  0.0213, -0.0357,  0.0107, -0.0648, -0.0228,
+        -0.0103,  0.0040,  0.0497,  0.0346,  0.0090,  0.0159,  0.0292, -0.0055])}, 3: {'momentum_buffer': tensor([[ 0.0135,  0.0088,  0.0043,  ...,  0.0020,  0.0085,  0.0026],
+        [ 0.0006,  0.0037,  0.0028,  ...,  0.0020,  0.0100,  0.0008],
+        [-0.0141, -0.0043,  0.0011,  ..., -0.0012,  0.0018, -0.0013],
         ...,
-        [ 0.0030,  0.0022,  0.0038,  ...,  0.0035,  0.0036,  0.0023],
-        [-0.0011, -0.0004, -0.0034,  ..., -0.0020, -0.0032, -0.0020],
-        [ 0.0013,  0.0010,  0.0014,  ...,  0.0015,  0.0011,  0.0001]])}}
-param_groups 	 [{'lr': 0.0025, 'momentum': 0.9, 'dampening': 0, 'weight_decay': 0, 'nesterov': False, 'maximize': False, 'foreach': None, 'differentiable': False, 'initial_lr': 0.01, 'params': [0, 1, 2, 3]}]
+        [ 0.0046,  0.0071,  0.0051,  ...,  0.0002,  0.0155, -0.0002],
+        [ 0.0122,  0.0013,  0.0021,  ..., -0.0002,  0.0043, -0.0006],
+        [-0.0025, -0.0060, -0.0024,  ..., -0.0013, -0.0120,  0.0002]])}}
+param_groups 	 [{'lr': 0.01, 'momentum': 0.9, 'dampening': 0, 'weight_decay': 0, 'nesterov': False, 'maximize': False, 'foreach': None, 'differentiable': False, 'initial_lr': 0.01, 'params': [0, 1, 2, 3]}]
 scheduler's state_dict:
 step_size 	 500
 gamma 	 0.5
 base_lrs 	 [0.01]
-last_epoch 	 1000
+last_epoch 	 100
 verbose 	 False
-_step_count 	 1001
+_step_count 	 101
 _get_lr_called_within_step 	 False
-_last_lr 	 [0.0025]
+_last_lr 	 [0.01]
 </pre>
 </div>
 </div>
@@ -8268,7 +8200,7 @@ _last_lr 	 [0.0025]
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">target_users</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_pos_edges</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
@@ -8289,7 +8221,7 @@ _last_lr 	 [0.0025]
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3820/3820 [3:24:27&lt;00:00,  3.21s/it]
+<pre>100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3837/3837 [3:23:47&lt;00:00,  3.19s/it]
 </pre>
 </div>
 </div>
@@ -8300,10 +8232,10 @@ _last_lr 	 [0.0025]
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">h2</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">"TruncatedSVD"</span><span class="p">,</span><span class="n">epoch</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">h2</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">"TruncatedSVD"</span><span class="p">,</span><span class="n">epoch</span><span class="o">=</span><span class="n">target_epoch</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8316,146 +8248,51 @@ _last_lr 	 [0.0025]
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>In epoch 0, loss: 0.8319059014320374
-In epoch 10, loss: 0.6391419768333435
-In epoch 20, loss: 0.6264968514442444
-In epoch 30, loss: 0.6207771897315979
-In epoch 40, loss: 0.6163594722747803
-In epoch 50, loss: 0.6100722551345825
-In epoch 60, loss: 0.6041662096977234
-In epoch 70, loss: 0.6012915372848511
-In epoch 80, loss: 0.5962530970573425
-In epoch 90, loss: 0.591964840888977
-In epoch 100, loss: 0.5883418321609497
-In epoch 110, loss: 0.5851919651031494
-In epoch 120, loss: 0.5824350118637085
-In epoch 130, loss: 0.5787000060081482
-In epoch 140, loss: 0.5758125185966492
-In epoch 150, loss: 0.5737694501876831
-In epoch 160, loss: 0.5708563327789307
-In epoch 170, loss: 0.567463219165802
-In epoch 180, loss: 0.5653952360153198
-In epoch 190, loss: 0.5638371109962463
-In epoch 200, loss: 0.5628612637519836
-In epoch 210, loss: 0.5612289309501648
-In epoch 220, loss: 0.5587643384933472
-In epoch 230, loss: 0.5574308037757874
-In epoch 240, loss: 0.555939257144928
-In epoch 250, loss: 0.5546720027923584
-In epoch 260, loss: 0.5527260303497314
-In epoch 270, loss: 0.5515633225440979
-In epoch 280, loss: 0.5507698655128479
-In epoch 290, loss: 0.551199197769165
-In epoch 300, loss: 0.548389732837677
-In epoch 310, loss: 0.5474949479103088
-In epoch 320, loss: 0.546774685382843
-In epoch 330, loss: 0.5462205410003662
-In epoch 340, loss: 0.5456066131591797
-In epoch 350, loss: 0.545310378074646
-In epoch 360, loss: 0.5441046357154846
-In epoch 370, loss: 0.5440740585327148
-In epoch 380, loss: 0.5430415868759155
-In epoch 390, loss: 0.5423741936683655
-In epoch 400, loss: 0.5422307848930359
-In epoch 410, loss: 0.5411298274993896
-In epoch 420, loss: 0.5414837002754211
-In epoch 430, loss: 0.5400946140289307
-In epoch 440, loss: 0.5393292307853699
-In epoch 450, loss: 0.5393404960632324
-In epoch 460, loss: 0.5389769673347473
-In epoch 470, loss: 0.5390099883079529
-In epoch 480, loss: 0.5386637449264526
-In epoch 490, loss: 0.5384660959243774
-In epoch 500, loss: 0.5375823378562927
-In epoch 510, loss: 0.5375518202781677
-In epoch 520, loss: 0.5377309918403625
-In epoch 530, loss: 0.5378003716468811
-In epoch 540, loss: 0.5367120504379272
-In epoch 550, loss: 0.5367518067359924
-In epoch 560, loss: 0.536698043346405
-In epoch 570, loss: 0.5369585752487183
-In epoch 580, loss: 0.5367937684059143
-In epoch 590, loss: 0.5373873114585876
-In epoch 600, loss: 0.5365981459617615
-In epoch 610, loss: 0.5355964303016663
-In epoch 620, loss: 0.5356521606445312
-In epoch 630, loss: 0.5358490347862244
-In epoch 640, loss: 0.5360814332962036
-In epoch 650, loss: 0.5355116724967957
-In epoch 660, loss: 0.535608172416687
-In epoch 670, loss: 0.5355168581008911
-In epoch 680, loss: 0.535391628742218
-In epoch 690, loss: 0.5347135663032532
-In epoch 700, loss: 0.5348489880561829
-In epoch 710, loss: 0.5352738499641418
-In epoch 720, loss: 0.5351066589355469
-In epoch 730, loss: 0.5352524518966675
-In epoch 740, loss: 0.5349365472793579
-In epoch 750, loss: 0.5340592265129089
-In epoch 760, loss: 0.5345349907875061
-In epoch 770, loss: 0.5346531867980957
-In epoch 780, loss: 0.5340099930763245
-In epoch 790, loss: 0.5337347388267517
-In epoch 800, loss: 0.5336742997169495
-In epoch 810, loss: 0.5338905453681946
-In epoch 820, loss: 0.5336896181106567
-In epoch 830, loss: 0.533598005771637
-In epoch 840, loss: 0.5337421894073486
-In epoch 850, loss: 0.5330259203910828
-In epoch 860, loss: 0.5340222716331482
-In epoch 870, loss: 0.533275842666626
-In epoch 880, loss: 0.5335943698883057
-In epoch 890, loss: 0.5330199599266052
-In epoch 900, loss: 0.5340966582298279
-In epoch 910, loss: 0.5323945879936218
-In epoch 920, loss: 0.5336019396781921
-In epoch 930, loss: 0.5320576429367065
-In epoch 940, loss: 0.5321937203407288
-In epoch 950, loss: 0.5322216749191284
-In epoch 960, loss: 0.5334749221801758
-In epoch 970, loss: 0.5326969623565674
-In epoch 980, loss: 0.5316622257232666
-In epoch 990, loss: 0.5332353711128235
-AUC 0.8556205398360319
+<pre>In epoch 0, loss: 0.7797489762306213
+In epoch 10, loss: 0.6444979310035706
+In epoch 20, loss: 0.6294510364532471
+In epoch 30, loss: 0.6225754618644714
+In epoch 40, loss: 0.6175698637962341
+In epoch 50, loss: 0.6125826239585876
+In epoch 60, loss: 0.6074199676513672
+In epoch 70, loss: 0.6032512784004211
+In epoch 80, loss: 0.5992748737335205
+In epoch 90, loss: 0.595876932144165
+AUC 0.7861470156248194
 Model's state_dict:
 fc.weight 	 torch.Size([64, 64])
 fc.bias 	 torch.Size([64])
 Optimizer's state_dict:
-state 	 {0: {'momentum_buffer': tensor([[-7.2722e-04, -3.4721e-03, -4.6762e-05,  ...,  2.9353e-05,
-          1.0329e-05,  9.3211e-05],
-        [ 2.9121e-04,  3.4986e-05,  6.2010e-04,  ..., -2.5758e-04,
-          3.6015e-04,  4.7318e-04],
-        [-4.1764e-04,  3.4088e-04,  2.9824e-03,  ..., -2.6665e-04,
-         -2.1399e-05, -7.5093e-04],
+state 	 {0: {'momentum_buffer': tensor([[ 6.4862e-03, -4.9031e-03, -7.0983e-03,  ..., -4.8888e-04,
+         -6.7446e-05, -2.7017e-05],
+        [ 3.2969e-03, -1.9973e-02, -4.0480e-02,  ..., -5.2377e-04,
+         -6.8156e-04, -9.8458e-04],
+        [ 3.6111e-03,  4.3694e-03, -4.1244e-02,  ...,  9.5605e-04,
+          7.9940e-05, -3.7967e-05],
         ...,
-        [-1.8882e-03,  7.2971e-04, -1.1359e-03,  ...,  2.1889e-04,
-          4.0645e-05, -3.3602e-04],
-        [ 6.8508e-05, -1.0986e-04, -1.8407e-03,  ...,  6.4304e-05,
-          9.5395e-05,  1.2002e-04],
-        [ 1.8400e-03,  1.9565e-03, -4.9660e-04,  ...,  2.3888e-04,
-          5.5827e-04, -1.0263e-03]])}, 1: {'momentum_buffer': tensor([-8.6100e-04, -1.6464e-03, -1.6543e-04, -6.9426e-04, -6.5733e-04,
-         4.8956e-04,  1.4884e-03, -1.2982e-03, -4.7996e-05,  3.3829e-05,
-        -1.4727e-03,  3.2891e-04, -1.8050e-03,  1.1369e-03,  2.7897e-03,
-        -9.0029e-04,  2.0075e-03,  3.7291e-03,  4.6387e-03,  1.3720e-03,
-        -1.1650e-03,  7.8496e-04,  4.4363e-04,  2.4540e-04, -1.2320e-03,
-         5.1637e-04, -1.7141e-03, -1.6010e-03, -4.2498e-04, -1.9216e-03,
-         3.1233e-03, -2.5286e-03, -1.4528e-04,  2.2816e-03, -5.9259e-04,
-        -2.9038e-03, -4.8812e-04, -9.5992e-04,  1.7155e-03, -1.2718e-03,
-         6.7414e-04, -1.2082e-03,  2.5060e-04, -2.5276e-04,  1.7478e-03,
-         1.0944e-03,  2.6477e-03, -1.7859e-03, -1.1234e-04, -5.7153e-04,
-        -9.6240e-04,  1.7347e-03,  2.9489e-04, -2.5279e-03, -1.0087e-03,
-         1.8250e-05,  1.9630e-03,  1.2523e-03, -6.1530e-04,  3.3199e-03,
-        -2.0303e-03,  4.1442e-04, -2.9907e-04, -1.1647e-04])}}
-param_groups 	 [{'lr': 0.0025, 'momentum': 0.9, 'dampening': 0, 'weight_decay': 0, 'nesterov': False, 'maximize': False, 'foreach': None, 'differentiable': False, 'initial_lr': 0.01, 'params': [0, 1]}]
+        [ 1.6379e-02, -4.4449e-03,  6.0847e-03,  ..., -2.6447e-04,
+         -1.4034e-04, -2.0221e-04],
+        [ 6.9915e-04, -5.4450e-03, -2.3116e-02,  ...,  4.3141e-04,
+          3.3843e-04,  2.8533e-04],
+        [-7.2840e-04,  1.7165e-02,  3.8667e-02,  ..., -7.1065e-04,
+         -1.4479e-04,  1.6362e-04]])}, 1: {'momentum_buffer': tensor([ 0.0025, -0.0023,  0.0008, -0.0036,  0.0019,  0.0028, -0.0136,  0.0077,
+        -0.0073,  0.0140,  0.0037,  0.0138, -0.0041, -0.0087, -0.0027, -0.0104,
+        -0.0020, -0.0054, -0.0037,  0.0005,  0.0086,  0.0070, -0.0006, -0.0075,
+         0.0032, -0.0010, -0.0044,  0.0073, -0.0137,  0.0010,  0.0036,  0.0141,
+         0.0145,  0.0050, -0.0110, -0.0034,  0.0123,  0.0086, -0.0103,  0.0065,
+        -0.0069,  0.0005,  0.0130, -0.0013, -0.0028,  0.0083,  0.0071,  0.0020,
+        -0.0033,  0.0064,  0.0041,  0.0049, -0.0034,  0.0038,  0.0051,  0.0014,
+        -0.0040,  0.0105, -0.0067, -0.0025,  0.0084, -0.0047,  0.0118, -0.0078])}}
+param_groups 	 [{'lr': 0.01, 'momentum': 0.9, 'dampening': 0, 'weight_decay': 0, 'nesterov': False, 'maximize': False, 'foreach': None, 'differentiable': False, 'initial_lr': 0.01, 'params': [0, 1]}]
 scheduler's state_dict:
 step_size 	 500
 gamma 	 0.5
 base_lrs 	 [0.01]
-last_epoch 	 1000
+last_epoch 	 100
 verbose 	 False
-_step_count 	 1001
+_step_count 	 101
 _get_lr_called_within_step 	 False
-_last_lr 	 [0.0025]
+_last_lr 	 [0.01]
 </pre>
 </div>
 </div>
@@ -8466,7 +8303,7 @@ _last_lr 	 [0.0025]
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">rankings2</span><span class="o">=</span><span class="p">{}</span>
@@ -8486,7 +8323,7 @@ _last_lr 	 [0.0025]
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3820/3820 [3:25:34&lt;00:00,  3.23s/it]
+<pre>100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3837/3837 [3:23:06&lt;00:00,  3.18s/it]
 </pre>
 </div>
 </div>
@@ -8497,7 +8334,7 @@ _last_lr 	 [0.0025]
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rankings</span><span class="p">)</span>
@@ -8515,16 +8352,16 @@ _last_lr 	 [0.0025]
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Hits@50: 0.009544502617801048
-NDCG@50: 0.08679938917996073
-MRR: 0.03602528725553057
+<pre>Hits@50: 0.008626531144123015
+NDCG@50: 0.07611818345241139
+MRR: 0.03178743088129017
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(0.009544502617801048, 0.08679938917996073, 0.03602528725553057)</pre>
+<pre>(0.008626531144123015, 0.07611818345241139, 0.03178743088129017)</pre>
 </div>
 </div>
 </div>
@@ -8534,7 +8371,7 @@ MRR: 0.03602528725553057
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -8550,16 +8387,16 @@ MRR: 0.03602528725553057
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Hits@5: 0.009633507853403141
-NDCG@5: 0.027250880903910743
-MRR: 0.021156195462478183
+<pre>Hits@5: 0.008965337503257753
+NDCG@5: 0.025150078913555276
+MRR: 0.01924246373034489
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(0.009633507853403141, 0.027250880903910743, 0.021156195462478183)</pre>
+<pre>(0.008965337503257753, 0.025150078913555276, 0.01924246373034489)</pre>
 </div>
 </div>
 </div>
@@ -8569,12 +8406,12 @@ MRR: 0.021156195462478183
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'dot_product_gcn_all.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
-<span class="n">a</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">'dot_product_gcn_all.pkl'</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s1">'node_embeddings_gcn.pt'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'./model_results/dot_product_GCN_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="n">a</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">'./model_results/dot_product_GCN_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s1">'./model_results/node_embeddings_GCN_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8585,7 +8422,7 @@ MRR: 0.021156195462478183
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">a2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rankings2</span><span class="p">)</span>
@@ -8603,16 +8440,16 @@ MRR: 0.021156195462478183
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Hits@50: 0.004816753926701571
-NDCG@50: 0.04478218425877151
-MRR: 0.017061470995251078
+<pre>Hits@50: 0.0041907740422204845
+NDCG@50: 0.04343913712820476
+MRR: 0.0183727636731807
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[40]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(0.004816753926701571, 0.04478218425877151, 0.017061470995251078)</pre>
+<pre>(0.0041907740422204845, 0.04343913712820476, 0.0183727636731807)</pre>
 </div>
 </div>
 </div>
@@ -8622,7 +8459,7 @@ MRR: 0.017061470995251078
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -8638,16 +8475,16 @@ MRR: 0.017061470995251078
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Hits@5: 0.004397905759162304
-NDCG@5: 0.012585534683067784
-MRR: 0.009694589877835953
+<pre>Hits@5: 0.004743289027886371
+NDCG@5: 0.014322243020868932
+MRR: 0.011358700373555729
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>(0.004397905759162304, 0.012585534683067784, 0.009694589877835953)</pre>
+<pre>(0.004743289027886371, 0.014322243020868932, 0.011358700373555729)</pre>
 </div>
 </div>
 </div>
@@ -8657,12 +8494,12 @@ MRR: 0.009694589877835953
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">a2</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'dot_product_TruncatedSVD_all.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
-<span class="n">a2</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">'dot_product_TruncatedSVD_all.pkl'</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="s1">'node_embeddings_TruncatedSVD.pt'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">a2</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'./model_results/dot_product_TruncatedSVD_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<span class="n">a2</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">'./model_results/dot_product_TruncatedSVD_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="s1">'./model_results/node_embeddings_TruncatedSVD_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8675,6 +8512,54 @@ MRR: 0.009694589877835953
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>epoch= 100</p>
+<table>
+<thead>
+<tr>
+<th>model</th>
+<th>AUC</th>
+<th>hits@5</th>
+<th>NDCG@5</th>
+<th>MRR</th>
+<th>hits@50</th>
+<th>NDCG@50</th>
+<th>MRR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GCN</td>
+<td>0.9316</td>
+<td>0.0090</td>
+<td>0.0252</td>
+<td>0.0318</td>
+<td>0.0086</td>
+<td>0.0761</td>
+<td>0.0318</td>
+</tr>
+<tr>
+<td>tSVD</td>
+<td>0.7861</td>
+<td>0.0047</td>
+<td>0.0143</td>
+<td>0.0114</td>
+<td>0.0047</td>
+<td>0.0143</td>
+<td>0.0114</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=79928e09">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>epoch= 1000</p>
 <table>
 <thead>
 <tr>
@@ -8719,19 +8604,45 @@ MRR: 0.009694589877835953
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [91]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load if unloaded and get recommendations</span>
 <span class="k">if</span> <span class="s1">'h'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">'h'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-    <span class="n">h</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'node_embeddings_gcn.pt'</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'./model_results/node_embeddings_GCN_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
 <span class="k">if</span> <span class="s1">'a'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">'a'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">'dot_product_gcn_all.pkl'</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">'./model_results/dot_product_GCN_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
 <span class="k">if</span> <span class="s1">'h2'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">'h2'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-    <span class="n">h</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'node_embeddings_TruncatedSVD.pt'</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'./model_results/node_embeddings_TruncatedSVD_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
 <span class="k">if</span> <span class="s1">'a2'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">'a2'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">'dot_product_TruncatedSVD_all.pkl'</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">'./model_results/dot_product_TruncatedSVD_'</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">'_fb.pkl'</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d11f2fb0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">h</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>torch.Size([4039, 64])</pre>
 </div>
 </div>
 </div>
@@ -8741,7 +8652,7 @@ MRR: 0.009694589877835953
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [92]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">=</span><span class="n">generate_rec</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c1">#k only for visualization here</span>
@@ -8758,11 +8669,11 @@ MRR: 0.009694589877835953
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>List of 5 suggested friends for user 40:
-- User 232, score = 2.4407334327697754, rel = 1
-- User 107, score = 2.2264106273651123, rel = 0
-- User 225, score = 2.206943988800049, rel = 0
-- User 170, score = 2.0902135372161865, rel = 0
-- User 212, score = 2.015990972518921, rel = 1
+- User 208, score = 2.76556658744812, rel = 0
+- User 28, score = 2.76164174079895, rel = 0
+- User 130, score = 2.6085283756256104, rel = 0
+- User 177, score = 2.603623390197754, rel = 0
+- User 137, score = 2.583993911743164, rel = 0
 </pre>
 </div>
 </div>
@@ -8773,7 +8684,7 @@ MRR: 0.009694589877835953
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [93]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">sc2</span><span class="o">=</span><span class="n">generate_rec</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -8790,11 +8701,11 @@ MRR: 0.009694589877835953
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>List of 5 suggested friends for user 40:
-- User 153, score = 3.9653868675231934, rel = 0
-- User 2238, score = 3.624063014984131, rel = 0
-- User 2090, score = 3.6001768112182617, rel = 0
-- User 1898, score = 3.505584239959717, rel = 0
-- User 210, score = 3.4285125732421875, rel = 0
+- User 1940, score = 2.9889063835144043, rel = 0
+- User 2173, score = 2.6871931552886963, rel = 0
+- User 2048, score = 2.6488707065582275, rel = 0
+- User 2501, score = 2.5042083263397217, rel = 0
+- User 1976, score = 2.4675705432891846, rel = 0
 </pre>
 </div>
 </div>
