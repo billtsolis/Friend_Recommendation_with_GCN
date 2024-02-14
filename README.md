@@ -1,4 +1,4 @@
-# Friend Recommendation with GCN
+# Friend Recommendation using Graph Neural Networks in Social Platforms
 ##   Authors 
 - V.Karaiskos, ID: 480, [vkaraiskos\@cs.uoi.gr](mailto:vkaraiskos@cs.uoi.gr)
 - V.Tsolis,    ID: 502, [pcs00502\@uoi.gr](mailto:pcs00502@uoi.gr)
